@@ -4,7 +4,7 @@ Simply put: Allows you to authorise with Cloudflare Access using your Discordd a
 
 Process flow was inspired by [kimcore/discord-oidc](https://github.com/kimcore/discord-oidc) but rewritten entirely for [Cloudflare Workers](https://workers.cloudflare.com/) and [Hono](https://honojs.dev/).
 
-Some ideas were also taken from [eidam/cf-access-workers-oidc](https://github.com/eidam/cf-access-workers-oidc)
+Some ideas were also taken from [eidam/cf-access-workers-oidc](https://github.com/eidam/cf-access-workers-oidc).
 
 Show them some love!
 
@@ -13,7 +13,7 @@ Show them some love!
 You will need a [Discord developer application](https://discord.com/developers/applications) to use for OAuth2 and a Cloudflare Access account to setup with. You will also need NodeJS.
 
 - Clone the repository.
-- Install dependencies
+- Install dependencies: `npm install`
 - Create a KV namespace on Cloudflare [here](https://dash.cloudflare.com/?to=/:account/workers/kv/namespaces).
 - Edit `wrangler.toml` to use your new KV namespace ID.
 - Copy `config.sample.json` to `config.json`.
