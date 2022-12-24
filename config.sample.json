@@ -1,0 +1,5 @@
+{
+    "clientId": "00000000000000",
+    "clientSecret": "AAAAAAAAAAAAAAAAAAA",
+    "redirectURL": "https://YOURNAME.cloudflareaccess.com/cdn-cgi/access/callback"
+}

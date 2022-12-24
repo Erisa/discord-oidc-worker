@@ -1,0 +1,16 @@
+{
+  "name": "discord-oidc-worker",
+  "version": "1.0.0",
+  "description": "Discord OIDC Wrapper in CF Workers",
+  "main": "worker.js",
+  "scripts": {
+    "start": "wrangler dev"
+  },
+  "author": "Erisa A <erisa@erisa.uk>",
+  "license": "MIT",
+  "dependencies": {
+    "hono": "^2.6.2",
+    "jose": "^4.11.1",
+    "wrangler": "^2.6.2"
+  }
+}
