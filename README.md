@@ -10,7 +10,7 @@ Show them some love!
 
 ## Setup
 
-You will need a [Discord developer application](https://discord.com/developers/applications) to use for OAuth2 and a Cloudflare Access account to setup with. You will also need NodeJS.
+You will need a [Discord developer application](https://discord.com/developers/applications) to use for OAuth2 and a Cloudflare Access account to setup with. When creating this Discord developer application set the redirect URL to your Cloudflare Access subdomain followed by `cdn-cgi/access/callback`. You will also need NodeJS.
 
 - Clone the repository.
 - Install dependencies: `npm install`
