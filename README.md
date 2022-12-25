@@ -10,15 +10,20 @@ Show them some love!
 
 ## Setup
 
-You will need a [Discord developer application](https://discord.com/developers/applications) to use for OAuth2 and a Cloudflare Access account to setup with. You will also need NodeJS.
+Requirements:
+- A Cloudflare Access account - make sure you've gone through the onboarding flow and have a `NAME.cloudflareaccess.com` subddomain.
+- A [Discord developer application](https://discord.com/developers/applications) to use for OAuth2.
+    - Add a redirect URI `https://YOURNAME.cloudflareaccess.com/cdn-cgi/access/callback` to the Discord application.
+- NodeJS
 
+Steps:
 - Clone the repository.
 - Install dependencies: `npm install`
 - Create a KV namespace on Cloudflare [here](https://dash.cloudflare.com/?to=/:account/workers/kv/namespaces).
 - Edit `wrangler.toml` to use your new KV namespace ID.
 - Copy `config.sample.json` to `config.json`.
 - Add your Discord application ID and OAuth2 secret to `config.json`.
-- Edit your Cloudflare Access subdomain into `config.json` under `redirectURL`.
+- Edit your Cloudflare Access subdomain into `config.json` under `redirectURL`. This should be the same URL you added to Discord.
 - Publish the Worker with `npx wrangler publish`!
 
 ## Usage
