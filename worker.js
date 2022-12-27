@@ -1,4 +1,4 @@
-import { clientId, clientSecret, redirectURL } from './config.json'
+import * as config from './config.json'
 import { Hono } from 'hono'
 import * as jose from 'jose'
 
@@ -40,15 +40,15 @@ const app = new Hono()
 
 app.get('/authorize/:scopemode', async (c) => {
 
-	if (c.req.query('client_id') !== clientId
-		|| c.req.query('redirect_uri') !== redirectURL
+	if (c.req.query('client_id') !== config.clientId
+		|| c.req.query('redirect_uri') !== config.redirectURL
 		|| !['guilds', 'email'].includes(c.req.param('scopemode'))) {
 		return c.text('Bad request.', 400)
 	}
 
 	const params = new URLSearchParams({
-		'client_id': clientId,
-		'redirect_uri': redirectURL,
+		'client_id': config.clientId,
+		'redirect_uri': config.redirectURL,
 		'response_type': 'code',
 		'scope': c.req.param('scopemode') == 'guilds' ? 'identify email guilds' : 'identify email',
 		'state': c.req.query('state'),
@@ -62,9 +62,9 @@ app.post('/token', async (c) => {
 	const body = await c.req.parseBody()
 	const code = body['code']
 	const params = new URLSearchParams({
-		'client_id': clientId,
-		'client_secret': clientSecret,
-		'redirect_uri': redirectURL,
+		'client_id': config.clientId,
+		'client_secret': config.clientSecret,
+		'redirect_uri': config.redirectURL,
 		'code': code,
 		'grant_type': 'authorization_code',
 		'scope': 'identify email'
@@ -85,6 +85,8 @@ app.post('/token', async (c) => {
 		}
 	}).then(res => res.json())
 
+	if (!userInfo['verified']) return c.text('Bad request.', 400)
+
 	let servers = []
 
 	const serverResp = await fetch('https://discord.com/api/users/@me/guilds', {
@@ -100,18 +102,39 @@ app.post('/token', async (c) => {
 		})
 	}
 
-	if (!userInfo['verified']) return c.text('Bad request.', 400)
+	let roleClaims = {}
+
+	if (c.env.DISCORD_TOKEN && 'serversToCheckRolesFor' in config) {
+		await Promise.all(config.serversToCheckRolesFor.map(async guildId => {
+			if (servers.includes(guildId)) {
+				let memberPromise = fetch(`https://discord.com/api/guilds/${guildId}/members/${userInfo['id']}`, {
+					headers: {
+						'Authorization': 'Bot ' + c.env.DISCORD_TOKEN
+					}
+				})
+				// i had issues doing this any other way?
+				const memberResp = await memberPromise
+				const memberJson = await memberResp.json()
+
+				roleClaims[`roles:${guildId}`] = memberJson.roles
+			}
+
+		}
+		))
+	}
+
 	const idToken = await new jose.SignJWT({
 		iss: 'https://cloudflare.com',
-		aud: clientId,
+		aud: config.clientId,
 		preferred_username: `${userInfo['username']}#${userInfo['discriminator']}`,
 		...userInfo,
+		...roleClaims,
 		email: userInfo['email'],
 		guilds: servers
 	})
 		.setProtectedHeader({ alg: 'RS256' })
 		.setExpirationTime('1h')
-		.setAudience(clientId)
+		.setAudience(config.clientId)
 		.sign((await loadOrGenerateKeyPair(c.env.KV)).privateKey)
 
 	return c.json({
