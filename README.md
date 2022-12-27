@@ -51,7 +51,7 @@ Steps:
     - The bot does not need any permissions, it just needs to exist in the server.
 - Generate a bot token and paste it into `npx wrangler secret put DISCORD_TOKEN`.
 - Populate `config.json` with a list of server IDs that you wish to check user roles for. **Make sure the bot is a member of all servers in this list**.
-- Edit the OIDC provider in Cloudflare Access and add the server IDs as scopes prefixed with `roles:`, e.g. `roles:438781053675634713`
+- Edit the OIDC provider in Cloudflare Access and add the server IDs as claims prefixed with `roles:`, e.g. `roles:438781053675634713`
 - When creating a policy, reference the `roles:` claims as the name, and use the role ID as the claim value. This will match users in that server who have that role.
 
 Example config for a roles setup:
