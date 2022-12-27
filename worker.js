@@ -46,11 +46,28 @@ app.get('/authorize/:scopemode', async (c) => {
 		return c.text('Bad request.', 400)
 	}
 
+	let scopes = '';
+	
+	switch(c.req.param('scopemode')) {
+		case 'email':
+			scopes = 'identify email';
+			break;
+		case 'guilds':
+			scopes = 'identify email guilds';
+			break;
+		case 'roles':
+			scopes = 'identify email guilds guilds.members.read';
+			break;
+		default:
+			scopes = 'identify email';
+			break;
+	}
+
 	const params = new URLSearchParams({
 		'client_id': config.clientId,
 		'redirect_uri': config.redirectURL,
 		'response_type': 'code',
-		'scope': c.req.param('scopemode') == 'guilds' ? 'identify email guilds' : 'identify email',
+		'scope': scopes,
 		'state': c.req.query('state'),
 		'prompt': 'none'
 	}).toString()
