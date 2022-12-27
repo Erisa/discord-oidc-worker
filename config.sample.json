@@ -3,6 +3,7 @@
     "clientSecret": "AAAAAAAAAAAAAAAAAAA",
     "redirectURL": "https://YOURNAME.cloudflareaccess.com/cdn-cgi/access/callback",
     "serversToCheckRolesFor": [
-
-    ]
+        
+    ],
+    "cacheRoles": false
 }
