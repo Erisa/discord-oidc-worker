@@ -5,3 +5,6 @@ compatibility_date = "2022-12-24"
 kv_namespaces = [
   { binding = "KV", id = "0b9abda82acf461c8d4ecda656217e20", preview_id = "b43c22430b5240dea89cd6cc350d3946" }
 ]
+
+[triggers]
+crons = ["0 */1 * * *"]
