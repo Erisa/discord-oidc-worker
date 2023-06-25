@@ -17,7 +17,7 @@ Requirements:
 - NodeJS
 
 Steps:
-- Clone the repository.
+- Clone the repository and `cd` into it: `git clone https://github.com/Erisa/discord-oidc-worker.git && cd discord-oidc-worker`
 - Install dependencies: `npm install`
 - Create a KV namespace on Cloudflare [here](https://dash.cloudflare.com/?to=/:account/workers/kv/namespaces).
 - Edit `wrangler.toml` to use your new KV namespace ID.
