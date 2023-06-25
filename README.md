@@ -14,7 +14,7 @@ Requirements:
 - A Cloudflare Access account - make sure you've gone through the onboarding flow and have a `NAME.cloudflareaccess.com` subddomain.
 - A [Discord developer application](https://discord.com/developers/applications) to use for OAuth2.
     - Add a redirect URI `https://YOURNAME.cloudflareaccess.com/cdn-cgi/access/callback` to the Discord application.
-- NodeJS
+- An installation of Node.js
 
 Steps:
 - Clone the repository and `cd` into it: `git clone https://github.com/Erisa/discord-oidc-worker.git && cd discord-oidc-worker`
