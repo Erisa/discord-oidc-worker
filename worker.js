@@ -123,17 +123,23 @@ app.post('/token', async (c) => {
 		))
 	}
 
-	if (userInfo['discriminator'] === '0'){
+	let preferred_username = userInfo['username']
 
+	if (userInfo['discriminator'] && userInfo['discriminator'] !== '0'){
+		preferred_username += `#${userInfo['discriminator']}`
 	}
+
+	let displayName = userInfo['global_name'] ?? userInfo['username']
 
 	const idToken = await new jose.SignJWT({
 		iss: 'https://cloudflare.com',
 		aud: config.clientId,
-		preferred_username: `${userInfo['username']}#${userInfo['discriminator']}`,
+		preferred_username,
 		...userInfo,
 		...roleClaims,
 		email: userInfo['email'],
+		global_name: userInfo['global_name'],
+		name: displayName,
 		guilds: servers
 	})
 		.setProtectedHeader({ alg: 'RS256' })

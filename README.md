@@ -40,7 +40,9 @@ Steps:
     - Proof Key for Code Exchange (PKCE): Enabled
     - OIDC Claims:
         - Email is included automatically without being set here.
-        - `preferred_username` will map to the users name + discrim e.g. `Erisa#9999`
+        - It would be recommended to add `id` here, as the users unique Discord user ID.
+        - `preferred_username` will map to the users username and discrim if they have one e.g. `Erisa#9999` or `erisachu`
+        - `name` will map to the non-unique Display Name of the user, or username if there is none. E.g. `Erisa`. Basically a safer form of `global_name`, which might sometimes be null.
         - If the Auth URL is `/guilds` then the `guilds` claim can be used toprovide a list of guild IDs.
         - Anything else from here will work: https://discord.com/developers/docs/resources/user#user-object-user-structure
 - See the Examples section below for help with constructing policies.

@@ -1,6 +1,6 @@
 {
   "name": "discord-oidc-worker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Discord OIDC Wrapper in CF Workers",
   "main": "worker.js",
   "scripts": {
