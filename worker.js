@@ -70,7 +70,7 @@ app.post('/token', async (c) => {
 		'scope': 'identify email'
 	}).toString()
 
-	const r = await fetch('https://discord.com/api/oauth2/token', {
+	const r = await fetch('https://discord.com/api/v10/oauth2/token', {
 		method: 'POST',
 		body: params,
 		headers: {
@@ -79,7 +79,7 @@ app.post('/token', async (c) => {
 	}).then(res => res.json())
 
 	if (r === null) return new Response("Bad request.", { status: 400 })
-	const userInfo = await fetch('https://discord.com/api/users/@me', {
+	const userInfo = await fetch('https://discord.com/api/v10/users/@me', {
 		headers: {
 			'Authorization': 'Bearer ' + r['access_token']
 		}
@@ -89,7 +89,7 @@ app.post('/token', async (c) => {
 
 	let servers = []
 
-	const serverResp = await fetch('https://discord.com/api/users/@me/guilds', {
+	const serverResp = await fetch('https://discord.com/api/v10/users/@me/guilds', {
 		headers: {
 			'Authorization': 'Bearer ' + r['access_token']
 		}
@@ -107,7 +107,7 @@ app.post('/token', async (c) => {
 	if (c.env.DISCORD_TOKEN && 'serversToCheckRolesFor' in config) {
 		await Promise.all(config.serversToCheckRolesFor.map(async guildId => {
 			if (servers.includes(guildId)) {
-				let memberPromise = fetch(`https://discord.com/api/guilds/${guildId}/members/${userInfo['id']}`, {
+				let memberPromise = fetch(`https://discord.com/api/v10/guilds/${guildId}/members/${userInfo['id']}`, {
 					headers: {
 						'Authorization': 'Bot ' + c.env.DISCORD_TOKEN
 					}
@@ -121,6 +121,10 @@ app.post('/token', async (c) => {
 
 		}
 		))
+	}
+
+	if (userInfo['discriminator'] === '0'){
+
 	}
 
 	const idToken = await new jose.SignJWT({
