@@ -133,6 +133,7 @@ app.post('/token', async (c) => {
 
 	const idToken = await new jose.SignJWT({
 		iss: 'https://cloudflare.com',
+		sub: userInfo['id'],
 		aud: config.clientId,
 		preferred_username,
 		...userInfo,
@@ -146,6 +147,12 @@ app.post('/token', async (c) => {
 		.setExpirationTime('1h')
 		.setAudience(config.clientId)
 		.sign((await loadOrGenerateKeyPair(c.env.KV)).privateKey)
+
+	console.log(JSON.stringify({
+		...r,
+		scope: 'identify email',
+		id_token: idToken
+	}))
 
 	return c.json({
 		...r,
@@ -162,6 +169,53 @@ app.get('/jwks.json', async (c) => {
 			kid: 'jwtRS256',
 			...(await crypto.subtle.exportKey('jwk', publicKey))
 		}]
+	})
+})
+
+app.get("/.well-known/openid-configuration", async (c) => {
+	const url = new URL(c.req.url)
+	return c.json({
+		issuer: `https://${url.hostname}`,
+		authorization_endpoint: `https://${url.hostname}/authorize/email`,
+		token_endpoint: `https://${url.hostname}/token`,
+		userinfo_endpoint: `https://${url.hostname}/userinfo`, // not yet implemented
+		jwks_uri: `https://${url.hostname}/jwks.json`,
+		scopes_supported: [
+			"openid",
+			"email",
+			"profile"
+		],
+		response_types_supported: [
+			"code"
+		],
+		token_endpoint_auth_methods_supported: [
+			"client_secret_post"
+		],
+		claims_supported: [
+			"iss",
+			"sub",
+			"aud",
+			"exp",
+			"name",
+			"username",
+			"email",
+			"id"
+		],
+		claim_types_supported: [
+			"normal"
+		],
+		subject_types_supported: [
+			"public"
+		],
+		grant_types_supported: [
+			"authorization_code"
+		],
+		id_token_signing_alg_values_supported: [
+			"RS256"
+		],
+		code_challenge_methods_supported: [
+			"plain"
+		]
 	})
 })
 
