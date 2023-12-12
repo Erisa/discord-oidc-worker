@@ -86,3 +86,5 @@ This example would allow me to access the application if I was myself on Discord
 ## Security
 
 If you find a security vulnerability in this repository, do NOT create an Issue or Pull Request. Please contact me through email or message (There are links on my GitHub profile). If you create an issue for an active security vulnerability I will save the information and delete the issue.
+
+Alternatively, you can try out a new GitHub feature for Security Advisories: https://github.com/Erisa/discord-oidc-worker/security
