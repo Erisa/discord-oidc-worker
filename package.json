@@ -11,6 +11,6 @@
   "dependencies": {
     "hono": "^2.6.2",
     "jose": "^4.11.1",
-    "wrangler": "^2.20.1"
+    "wrangler": "^2.20.2"
   }
 }
