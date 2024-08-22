@@ -9,7 +9,7 @@
   "author": "Erisa A <erisa@erisa.uk>",
   "license": "MIT",
   "dependencies": {
-    "hono": "^2.6.2",
+    "hono": "^4.5.8",
     "jose": "^4.15.5",
     "wrangler": "^2.20.2"
   }
