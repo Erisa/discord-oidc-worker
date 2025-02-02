@@ -9,8 +9,8 @@
   "author": "Erisa A <erisa@erisa.uk>",
   "license": "MIT",
   "dependencies": {
-    "hono": "^2.6.2",
-    "jose": "^4.15.5",
-    "wrangler": "^2.20.2"
+    "hono": "^4.6.20",
+    "jose": "^5.9.6",
+    "wrangler": "3.107.2"
   }
 }
